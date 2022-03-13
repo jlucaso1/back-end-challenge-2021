@@ -17,17 +17,17 @@ export class ArticleController {
   constructor(private articleService: ArticleService) {}
 
   @Get()
-  getArticles() {
+  getArticles(): Promise<Article[]> {
     return this.articleService.getArticles();
   }
 
   @Get(':id')
-  getArticle(@Param('id') id: number) {
+  getArticle(@Param('id') id: number): Promise<Article> {
     return this.articleService.getArticle(id);
   }
 
   @Post()
-  createArticle(@Body() createArticleDto: CreateArticleDto) {
+  createArticle(@Body() createArticleDto: CreateArticleDto): Promise<Article> {
     return this.articleService.createArticle(createArticleDto);
   }
 
