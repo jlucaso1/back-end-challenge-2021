@@ -1,6 +1,8 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { Article } from './article.entity';
+import { Article } from './entities/article.entity';
+import { CreateArticleDto } from './dto/create.article.dto';
+import { UpdateArticleDto } from './dto/update.article.dto';
 
 @Injectable()
 export class ArticleService {
@@ -10,24 +12,37 @@ export class ArticleService {
   ) {}
 
   getArticles(): Promise<Article[]> {
-    return this.articleRepository.find();
+    return this.articleRepository.find({
+      relations: ['events', 'launches'],
+    });
   }
 
-  getArticle(id: number): Promise<Article> {
-    return this.articleRepository.findOneOrFail(id);
+  async getArticle(id: number): Promise<Article> {
+    var article = await this.articleRepository.findOne(id, {
+      relations: ['events', 'launches'],
+    });
+    if (!article)
+      throw new HttpException('Article not found.', HttpStatus.NOT_FOUND);
+    return article;
   }
 
-  createArticle(article: Article): Promise<Article> {
-    return this.articleRepository.save(article);
+  createArticle(createArticleDto: CreateArticleDto): Promise<Article> {
+    return this.articleRepository.save(createArticleDto);
   }
 
-  updateArticle(id: number, article: Article): Promise<Article> {
-    article.id = id;
-    return this.articleRepository.save(article);
+  async updateArticle(
+    id: number,
+    updateArticleDto: UpdateArticleDto,
+  ): Promise<Article> {
+    var old_article = await this.getArticle(id);
+    var merged_article = { ...old_article, ...updateArticleDto };
+    await this.articleRepository.save(merged_article);
+    return;
   }
 
   async deleteArticle(id: number): Promise<void> {
-    await this.articleRepository.delete(id);
+    var article = await this.getArticle(id);
+    await this.articleRepository.remove(article);
     return;
   }
 }

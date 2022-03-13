@@ -1,5 +1,5 @@
 import { Connection } from 'typeorm';
-import { Article } from './article.entity';
+import { Article } from './entities/article.entity';
 
 export const articleProviders = [
   {

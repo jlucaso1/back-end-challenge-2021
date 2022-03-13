@@ -8,5 +8,6 @@ import { ArticleService } from './article.service';
   imports: [DatabaseModule],
   controllers: [ArticleController],
   providers: [...articleProviders, ArticleService],
+  exports: [ArticleService],
 })
 export class ArticleModule {}

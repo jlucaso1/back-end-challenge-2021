@@ -7,8 +7,10 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { Article } from './article.entity';
+import { Article } from './entities/article.entity';
 import { ArticleService } from './article.service';
+import { CreateArticleDto } from './dto/create.article.dto';
+import { UpdateArticleDto } from './dto/update.article.dto';
 
 @Controller('articles')
 export class ArticleController {
@@ -19,23 +21,26 @@ export class ArticleController {
     return this.articleService.getArticles();
   }
 
-  @Get('/:id')
+  @Get(':id')
   getArticle(@Param('id') id: number) {
     return this.articleService.getArticle(id);
   }
 
   @Post()
-  createArticle(@Body() article: Article) {
-    return this.articleService.createArticle(article);
+  createArticle(@Body() createArticleDto: CreateArticleDto) {
+    return this.articleService.createArticle(createArticleDto);
   }
 
-  @Put()
-  updateArticle(@Body() article: Article) {
-    return this.articleService.updateArticle(article.id, article);
+  @Put(':id')
+  updateArticle(
+    @Param('id') id: number,
+    @Body() updateArticleDto: UpdateArticleDto,
+  ): Promise<Article> {
+    return this.articleService.updateArticle(id, updateArticleDto);
   }
 
-  @Delete()
-  deleteArticle(@Body('id') id: number) {
+  @Delete(':id')
+  deleteArticle(@Param('id') id: number) {
     return this.articleService.deleteArticle(id);
   }
 }
