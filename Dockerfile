@@ -19,12 +19,10 @@ ENV NODE_ENV=${NODE_ENV}
 
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+COPY --from=development /usr/src/app/dist ./dist
+COPY --from=development /usr/src/app/package.json ./
+COPY --from=development /usr/src/app/package-lock.json ./
 
 RUN npm install --only=production
 
-COPY . .
-
-COPY --from=development /usr/src/app/dist ./dist
-
-CMD ["node", "dist/main"]
+# CMD ["node", "dist/src/main.js"]
