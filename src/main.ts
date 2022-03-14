@@ -8,10 +8,11 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   // configure openapi
   const config = new DocumentBuilder()
-    .setTitle('Cats example')
-    .setDescription('The cats API description')
+    .setTitle('Back End Challenge')
+    .setDescription(
+      'This project is a REST API that uses data from Space Flight News and is related to the Coodesh challenge.',
+    )
     .setVersion('1.0')
-    .addTag('cats')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
