@@ -23,6 +23,9 @@ Rename .example.env to .env and fill the fields
 ```
 ```bash
 $ npm install
+
+# seed the database
+$ npm run seed:db
 ```
 
 ## Running the app
