@@ -6,7 +6,7 @@ This project is a REST API that uses data from Space Flight News and is related 
 
 Repository: https://github.com/jlucaso1/back-end-challenge-2021
 
-## Ferramentas Utilizadas
+## Technologies
 
 - Typescript
 - NestJS a framework of NodeJS
